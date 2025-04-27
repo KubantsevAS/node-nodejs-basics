@@ -1,6 +1,6 @@
 const parseEnv = () => {
     const PREFIX = 'RSS_';
-    const envVariables = process.env;
+    const { env: envVariables } = process;
 
     const parsedVariables = Object.entries(envVariables)
         .filter(([key]) => key.startsWith(PREFIX))
