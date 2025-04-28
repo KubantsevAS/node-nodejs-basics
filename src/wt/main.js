@@ -9,7 +9,7 @@ const workerPath = path.join(__dirname, 'worker.js');
 
 function createWorker(index) {
     const MIN_INITIAL_NUMBER = 10;
-    
+
     return new Promise((resolve, reject) => {
         const worker = new Worker(workerPath, {
             workerData: { incrementalNumber: MIN_INITIAL_NUMBER + index },
@@ -28,7 +28,7 @@ async function getPromisesStatus(arrayOfPromises) {
             result.push({
                 status: workerData.status === FULFILLED ? 'resolved' : 'error',
                 data: workerData.value || null,
-            }); 
+            });
         });
     });
 
@@ -40,7 +40,7 @@ const performCalculations = async () => {
     const workerPromises = [];
 
     for (let index = 0; index < coreCount; index++) {
-        workerPromises.push(createWorker(index))
+        workerPromises.push(createWorker(index));
     }
 
     console.log(await getPromisesStatus(workerPromises));
