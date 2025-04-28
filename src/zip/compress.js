@@ -9,6 +9,10 @@ const sourceFilePath = path.join(__dirname, 'files', 'fileToCompress.txt');
 const compressFilePath = path.join(__dirname, 'files', 'archive.gz');
 
 const compress = async () => {
+    if (!fs.existsSync(sourceFilePath)) {
+        throw new Error('FS operation failed');
+    }
+
     const gzip = createGzip();
 
     const sourceFile = await fs.promises.open(sourceFilePath);
@@ -17,5 +21,10 @@ const compress = async () => {
 
     sourceFileStream.pipe(gzip).pipe(compressFileStream);
 };
+
+process.on('uncaughtException', error => {
+    console.error(error);
+    process.exit(1);
+});
 
 await compress();
