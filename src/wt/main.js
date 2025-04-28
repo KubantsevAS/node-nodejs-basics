@@ -20,14 +20,17 @@ function createWorker(index) {
 }
 
 async function getPromisesStatus(arrayOfPromises) {
-    const FULFILLED = 'fulfilled';
+    const statusMap = {
+        'fulfilled': 'resolved',
+        'rejected': 'error',
+    };
     const result = [];
 
     await Promise.allSettled(arrayOfPromises).then(results => {
         results.forEach(workerData => {
             result.push({
-                status: workerData.status === FULFILLED ? 'resolved' : 'error',
-                data: workerData.value || null,
+                status: statusMap[workerData.status],
+                data: workerData.value ?? null,
             });
         });
     });
